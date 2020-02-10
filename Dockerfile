@@ -12,4 +12,5 @@ WORKDIR /RecipeAppAPI
 COPY ./src/RecipeAppAPI /RecipeAppAPI
 
 RUN adduser -D ebram96
+#RUN chown ebram96:ebram96 -R /RecipeAppAPI/
 USER ebram96
