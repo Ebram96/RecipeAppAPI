@@ -1,0 +1,8 @@
+db.sqlite3
+venv
+.idea/
+*.pyc
+sent_emails
+media
+DEV_FILES
+
