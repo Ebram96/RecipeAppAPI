@@ -19,6 +19,15 @@ class UserProfileManager(BaseUserManager):
 
         return user
 
+    def create_superuser(self, email, password):
+        """Creates a new user with superuser privileges."""
+        user = self.create_user(email=email, password=password)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+
+        return user
+
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Custom user model."""
