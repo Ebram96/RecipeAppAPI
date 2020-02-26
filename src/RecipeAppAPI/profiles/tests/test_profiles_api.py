@@ -34,13 +34,13 @@ class PublicUserAPITests(TestCase):
         payload = {"email": "ebram96@gmail.com", "password": "testPassword"}
         create_user(**payload)
         res = self.client.post(CREATE_USER_URL, payload)
-        self.assertEqual(res.status_code, HTTP_400_BAD_REQUEST)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_user_password_too_short(self):
         """Test creating a new user with a password less than 8 character"""
         payload = {"email": "ebram96@gmail.com", "password": "test"}
         res = self.client.post(CREATE_USER_URL, payload)
-        self.assertEqual(res.status_code, STATUS_400_BAD_REQUEST)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         user_exists = get_user_model().objects.filter(
             email=payload["email"]
         ).exists()
