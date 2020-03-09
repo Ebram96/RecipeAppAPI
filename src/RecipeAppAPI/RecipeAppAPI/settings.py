@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "core",
     "profiles",
+    "recipes",
 ]
 
 MIDDLEWARE = [
