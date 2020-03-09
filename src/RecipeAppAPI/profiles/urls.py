@@ -1,6 +1,10 @@
 from django.urls import path
 
-from profiles.views import CreateUserProfileView, GenerateAuthTokenView
+from profiles.views import (
+    CreateUserProfileView,
+    GenerateAuthTokenView,
+    ManageUserProfileView,
+)
 
 
 app_name = "profiles"
@@ -11,4 +15,5 @@ urlpatterns = [
         GenerateAuthTokenView.as_view(),
         name="generate_token"
     ),
+    path("me/", ManageUserProfileView.as_view(), name="me"),
 ]
