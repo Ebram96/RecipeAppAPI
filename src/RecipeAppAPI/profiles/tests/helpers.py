@@ -5,4 +5,4 @@ def create_user(**params):
     """
     Creates and returns a new user object from default authentication model
     """
-    return get_user_model().objects.create(**params)
+    return get_user_model().objects.create_user(**params)
