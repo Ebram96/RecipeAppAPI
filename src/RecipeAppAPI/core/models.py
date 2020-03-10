@@ -4,6 +4,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
+from django.conf import settings
 
 
 class UserProfileManager(BaseUserManager):
@@ -44,3 +45,16 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Returns a string representation for model object."""
         return self.email
+
+
+class Tag(models.Model):
+    """Represents a tag to be used with a recipe"""
+    creator = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        """Returns a string representation for model object"""
+        return self.name
