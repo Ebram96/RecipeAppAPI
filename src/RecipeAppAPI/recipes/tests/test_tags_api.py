@@ -35,8 +35,8 @@ class PrivateTagAPITests(TestCase):
 
     def test_retrieve_tag_list_successful(self):
         """Test retrieving list of tags"""
-        Tag.objects.create(creator=self.user, name="Spicy")
-        Tag.objects.create(creator=self.user, name="Well-Done")
+        Tag.objects.create(user=self.user, name="Spicy")
+        Tag.objects.create(user=self.user, name="Well-Done")
 
         res = self.client.get(TAGS_URL)
         tags = Tag.objects.all().order_by("-name")
@@ -51,9 +51,9 @@ class PrivateTagAPITests(TestCase):
             email="another_ebram96@gmail.com",
             password="testPassword",
         )
-        Tag.objects.create(creator=another_user, name="Well-Done")
-        Tag.objects.create(creator=self.user, name="Fruity")
-        Tag.objects.create(creator=self.user, name="Salad")
+        Tag.objects.create(user=another_user, name="Well-Done")
+        Tag.objects.create(user=self.user, name="Fruity")
+        Tag.objects.create(user=self.user, name="Salad")
 
         res = self.client.get(TAGS_URL)
 
@@ -70,7 +70,7 @@ class PrivateTagAPITests(TestCase):
         res = self.client.post(TAGS_URL, payload)
 
         exists = Tag.objects.filter(
-            creator=self.user,
+            user=self.user,
             name=payload["name"],
         ).exists()
         self.assertTrue(exists)

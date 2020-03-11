@@ -18,11 +18,11 @@ class TagViewSet(viewsets.GenericViewSet,
 
     def get_queryset(self):
         """Returns only tags that the currently logged user created"""
-        return self.queryset.filter(creator=self.request.user)
+        return self.queryset.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         """Set the currently logged user as creator of a tag"""
-        serializer.save(creator=self.request.user)
+        serializer.save(user=self.request.user)
 
 
 class IngredientViewSet(viewsets.GenericViewSet,

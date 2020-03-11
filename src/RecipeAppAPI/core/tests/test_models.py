@@ -58,7 +58,7 @@ class ModelTests(TestCase):
     def test_tag_str_representation_correct(self):
         """Test tag model object string representation is correct"""
         tag = models.Tag.objects.create(
-            creator=create_sample_user(),
+            user=create_sample_user(),
             name="Spicy",
         )
         self.assertEqual(str(tag), tag.name)

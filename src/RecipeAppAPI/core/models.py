@@ -49,7 +49,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 
 class Tag(models.Model):
     """Represents a tag to be used with a recipe"""
-    creator = models.ForeignKey(
+    user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
