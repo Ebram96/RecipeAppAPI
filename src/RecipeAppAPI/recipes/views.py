@@ -45,3 +45,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Retrieve recipe list of the logged user only"""
         return self.queryset.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        """Returns the appropriate serializer for actions"""
+        if self.action == "retrieve":
+            return serializers.RecipeDetailSerializer
+
+        return self.serializer_class
