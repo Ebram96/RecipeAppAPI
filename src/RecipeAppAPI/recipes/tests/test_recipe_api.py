@@ -74,3 +74,54 @@ class PrivateRecipeAPITests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
+
+    def test_create_basic_recipe_success(self):
+        """Test creating a Recipe is successful"""
+        payload = {
+            "title": "Koshary",
+            "time_minutes": 40,
+            "price": 10,
+        }
+        res = self.client.post(RECIPE_URL, payload)
+        recipe = Recipe.objects.get(id=res.data["id"])
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+
+        for key in payload.keys():
+            self.assertEqual(payload[key], getattr(recipe, key))
+
+    def test_create_recipe_with_tags_success(self):
+        """Test creating a Recipe with some tags is successful"""
+        tag1 = sample_tag(user=self.user, name="Local")
+        tag2 = sample_tag(user=self.user, name="Fast")
+        payload = {
+            "title": "Koshary",
+            "tags": [tag1.id, tag2.id],
+            "time_minutes": 40,
+            "price": 10,
+        }
+        res = self.client.post(RECIPE_URL, payload)
+        recipe = Recipe.objects.get(id=res.data["id"])
+        tags = recipe.tags.all()
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        self.assertIn(tag1, tags)
+        self.assertIn(tag2, tags)
+
+    def test_create_recipe_with_ingredients_successful(self):
+        """Test creating a Recipe with some ingredients is successful"""
+        ingredient1 = sample_ingredient(user=self.user, name="Milk")
+        ingredient2 = sample_ingredient(user=self.user, name="Salt")
+        payload = {
+            "title": "Bashamel",
+            "ingredients": [ingredient1.id, ingredient2.id],
+            "time_minutes": 45,
+            "price": 10,
+        }
+        res = self.client.post(RECIPE_URL, payload)
+        recipe = Recipe.objects.get(id=res.data["id"])
+        ingredients = recipe.ingredients.all()
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        self.assertIn(ingredient1, ingredients)
+        self.assertIn(ingredient2, ingredients)
