@@ -21,6 +21,6 @@ RUN mkdir -p /vol/web/static
 RUN adduser -D ebram96
 
 RUN chown -R ebram96:ebram96 /vol/
-RUN chown -R 755 /vol/web/
+#RUN chown -R 755 /vol/web/
 
 USER ebram96
