@@ -165,6 +165,49 @@ class PrivateRecipeAPITests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(recipe.tags.all()), 0)
 
+    def test_filter_recipes_by_tag(self):
+        """Returns recipes list with a specific tag"""
+        recipe1 = sample_recipe(user=self.user, title="Koshary")
+        recipe2 = sample_recipe(user=self.user, title="Bashamel")
+        recipe3 = sample_recipe(user=self.user, title="Ta3meya")
+        tag1 = sample_tag(user=self.user, name="Egyptian")
+        tag2 = sample_tag(user=self.user, name="Well Done")
+
+        recipe1.tags.add(tag1)
+        recipe2.tags.add(tag2)
+
+        res = self.client.get(RECIPE_URL, {"tags": f"{tag1.name},{tag2.name}"})
+        serializer1 = RecipeSerializer(recipe1)
+        serializer2 = RecipeSerializer(recipe2)
+        serializer3 = RecipeSerializer(recipe3)
+
+        self.assertIn(serializer1.data, res.data)
+        self.assertIn(serializer2.data, res.data)
+        self.assertNotIn(serializer3.data, res.data)
+
+    def test_filter_recipes_by_ingredient(self):
+        """Returns recipes list with a specific ingredient"""
+        recipe1 = sample_recipe(user=self.user, title="Koshary")
+        recipe2 = sample_recipe(user=self.user, title="Bashamel")
+        recipe3 = sample_recipe(user=self.user, title="Ta3meya")
+        ingredient1 = sample_ingredient(user=self.user, name="Salt")
+        ingredient2 = sample_ingredient(user=self.user, name="Milk")
+
+        recipe1.ingredients.add(ingredient1)
+        recipe2.ingredients.add(ingredient2)
+
+        res = self.client.get(
+            RECIPE_URL,
+            {"ingredients": f"{ingredient1.name},{ingredient2.name}"}
+        )
+        serializer1 = RecipeSerializer(recipe1)
+        serializer2 = RecipeSerializer(recipe2)
+        serializer3 = RecipeSerializer(recipe3)
+
+        self.assertIn(serializer1.data, res.data)
+        self.assertIn(serializer2.data, res.data)
+        self.assertNotIn(serializer3.data, res.data)
+
 
 class RecipeImageUploadTests(TestCase):
     def setUp(self):
