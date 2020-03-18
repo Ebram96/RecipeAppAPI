@@ -28,6 +28,11 @@ def recipe_detail_url(recipe_id):
     return reverse("recipes:recipe-detail", args=(recipe_id,))
 
 
+def recipe_image_upload_url(recipe_id):
+    """Returns URL for recipe image upload"""
+    return reverse("recipes:recipe-image-upload", args=(recipe_id,))
+
+
 def sample_tag(user, name="Salad"):
     """Create and return a Tag object"""
     return Tag.objects.create(user=user, name=name)
